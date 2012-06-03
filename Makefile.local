@@ -1,0 +1,23 @@
+#
+# Makefile.local diRf client v3.0
+#
+
+CLIENTBIN=ioUrT_diRf
+
+BUILD_STANDALONE=1
+BUILD_CLIENT=1
+
+# SMP builds two binaries on Linux
+BUILD_CLIENT_SMP=1
+BUILD_SERVER=0
+BUILD_GAME_SO=0
+BUILD_GAME_QVM=0
+BUILD_BASEGAME=0
+BUILD_MISSIONPACK=0
+
+# You might have to disable these if not on Linux
+USER_RENDERER_DLOPEN=0
+USE_CURL_DLOPEN=1
+
+# Mumble
+#USE_MUMBLE=1
