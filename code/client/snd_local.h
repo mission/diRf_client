@@ -105,8 +105,8 @@ typedef struct
 	int			startSample;	// START_SAMPLE_IMMEDIATE = set immediately on next mix
 	int			entnum;			// to allow overriding a specific sound
 	int			entchannel;		// to allow overriding a specific sound
-	int			leftvol;		// 0-255 volume after spatialization
-	int			rightvol;		// 0-255 volume after spatialization
+	int			_leftvol;		// 0-255 volume after spatialization
+	int			_rightvol;		// 0-255 volume after spatialization
 	int			master_vol;		// 0-255 volume before spatialization
 	float		dopplerScale;
 	float		oldDopplerScale;

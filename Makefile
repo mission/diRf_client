@@ -299,18 +299,18 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu"))
     -pipe -DUSE_ICON
   CLIENT_CFLAGS += $(SDL_CFLAGS)
 
-  OPTIMIZEVM = -O3 -funroll-loops -fomit-frame-pointer
+  OPTIMIZEVM = -march=native -O2 -funroll-loops -fomit-frame-pointer
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
 
   ifeq ($(ARCH),x86_64)
-    OPTIMIZEVM = -O3 -fomit-frame-pointer -funroll-loops \
+    OPTIMIZEVM = -march=native -O2 -fomit-frame-pointer -funroll-loops \
       -falign-loops=2 -falign-jumps=2 -falign-functions=2 \
       -fstrength-reduce
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED = true
   else
   ifeq ($(ARCH),i386)
-    OPTIMIZEVM = -O3 -march=i586 -fomit-frame-pointer \
+    OPTIMIZEVM = -march=native -O2 -march=i586 -fomit-frame-pointer \
       -funroll-loops -falign-loops=2 -falign-jumps=2 \
       -falign-functions=2 -fstrength-reduce
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
