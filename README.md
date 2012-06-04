@@ -37,3 +37,4 @@ Also, do not assume others are wall hacking because "I wasnt making noise."
 I'll reiterate: Just because YOU can't hear yourself with this build, does NOT
 mean others can't hear you.
 
+...
