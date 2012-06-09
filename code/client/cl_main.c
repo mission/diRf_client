@@ -117,7 +117,7 @@ cvar_t	*cl_trn;
 cvar_t	*cl_lanForcePackets;
 
 cvar_t	*cl_guidServerUniq;
-
+cvar_t *cl_altTab;
 cvar_t	*cl_consoleKeys;
 
 clientActive_t		cl;
@@ -3547,6 +3547,7 @@ void CL_Init( void ) {
 	cl_lanForcePackets = Cvar_Get ("cl_lanForcePackets", "1", CVAR_ARCHIVE);
 
 	cl_guidServerUniq = Cvar_Get ("cl_guidServerUniq", "1", CVAR_ARCHIVE);
+	cl_altTab = Cvar_Get("cl_altTab", "1", CVAR_ARCHIVE);
 
 	// ~ and `, as keys and characters
 	cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE);
