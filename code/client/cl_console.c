@@ -621,7 +621,7 @@ void Con_DrawSolidConsole( float frac ) {
 	int				lines;
 //	qhandle_t		conShader;
 	int				currentColor;
-	vec4_t			color;
+	vec4_t			colorBG,colorFG;
 
 	lines = cls.glconfig.vidHeight * frac;
 	if (lines <= 0)
@@ -643,16 +643,21 @@ void Con_DrawSolidConsole( float frac ) {
 		SCR_DrawPic( 0, 0, SCREEN_WIDTH, y, cls.consoleShader );
 	}
 
-	color[0] = 1;
-	color[1] = 0;
-	color[2] = 0;
-	color[3] = 1;
-	SCR_FillRect( 0, y, SCREEN_WIDTH, 2, color );
+	colorBG[0] = 45.0/255.0;
+	colorBG[1] = 72.0/255.0;
+	colorBG[2] = 92.0/255.0;
+	colorBG[3] = 1;
+	SCR_FillRect( 0, y, SCREEN_WIDTH, 2, colorBG );
+	
+	colorFG[0] = 140.0/255.0;
+	colorFG[1] = 170.0/255.0;
+	colorFG[2] = 183.0/255.0;
+	colorFG[3] = 1;
 
 
 	// draw the version number
 
-	re.SetColor( g_color_table[ColorIndex(COLOR_RED)] );
+	re.SetColor(colorFG);
 
 	i = strlen( Q3_VERSION );
 
@@ -672,7 +677,7 @@ void Con_DrawSolidConsole( float frac ) {
 	if (con.display != con.current)
 	{
 	// draw arrows to show the buffer is backscrolled
-		re.SetColor( g_color_table[ColorIndex(COLOR_RED)] );
+		re.SetColor(colorFG);
 		for (x=0 ; x<con.linewidth ; x+=4)
 			SCR_DrawSmallChar( con.xadjust + (x+1)*SMALLCHAR_WIDTH, y, '^' );
 		y -= SMALLCHAR_HEIGHT;
