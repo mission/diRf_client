@@ -310,6 +310,49 @@ void Cmd_Vstr_f( void ) {
 	Cbuf_InsertText( va("%s\n", v ) );
 }
 
+/*
+===============
+Cmd_PVstr_f
+
+Inserts the current value of a variable as command text // key press/ key release edition (backported from iourt)
+===============
+*/
+void Cmd_PVstr_f(void)
+{
+    char *v = NULL;
+    //static qboolean pushed = qfalse;
+
+    // dunno why five...probably because + keys are handled differently...
+    if (Cmd_Argc() != 5)
+    {
+        Com_Printf
+            ("+vstr <variablename1> <variablename2>: execute a variable command on key press and release\n");
+        return;
+    }
+
+    switch (Cmd_Argv(0)[0])
+    {
+    case '+':
+        v = Cvar_VariableString(Cmd_Argv(1));
+        //pushed = qtrue;
+        break;
+    case '-':
+        // we check this because otherwise key release would fire even in the console...
+        //if(pushed) { //ioq3-urt workaround: commented; this is almost a bug since it doesn't let a _second_ bind work properly
+        v = Cvar_VariableString(Cmd_Argv(2));
+        //pushed = qfalse;
+        //}
+        break;
+    default:
+        Com_Printf("Cmd_PVstr_f: unexpected leading character '%c'\n",
+                   Cmd_Argv(0)[0]);
+    }
+    if (v)
+    {
+        Cbuf_InsertText(va("%s\n", v));
+    }
+}
+
 
 /*
 ===============
@@ -855,6 +898,10 @@ void Cmd_Init (void) {
 	Cmd_AddCommand ("exec",Cmd_Exec_f);
 	Cmd_SetCommandCompletionFunc( "exec", Cmd_CompleteCfgName );
 	Cmd_AddCommand ("vstr",Cmd_Vstr_f);
+	Cmd_AddCommand("+vstr", Cmd_PVstr_f);
+	Cmd_SetCommandCompletionFunc("+vstr", Cvar_CompleteCvarName);
+	Cmd_AddCommand("-vstr", Cmd_PVstr_f);
+	Cmd_SetCommandCompletionFunc("-vstr", Cvar_CompleteCvarName);
 	Cmd_SetCommandCompletionFunc( "vstr", Cvar_CompleteCvarName );
 	Cmd_AddCommand ("echo",Cmd_Echo_f);
 	Cmd_AddCommand ("wait", Cmd_Wait_f);
