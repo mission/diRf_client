@@ -10,8 +10,9 @@ acceptable for league use.
 Additions: SACC (Slackins Advanced Competitive Client) and dmaHD by
 p5ych0runn3r.
 
-There is one cvar that has been added to enable or disable "environment"
-sounds: s_envSoundEnable
+Added cvars:
+s_envSoundEnable [0|1] -- to enable or disable "environmental" sounds
+com_nosplash [0|1] -- enable/disable Frozen Sand splash screen on client start (set this in your autoexec.cfg)
 
 What you can expect to hear / not hear:
 dmaHD greatly enhances the precision of sound and adds doppler effect to
