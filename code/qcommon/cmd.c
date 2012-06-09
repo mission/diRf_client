@@ -283,7 +283,10 @@ void Cmd_Exec_f( void ) {
 		Com_Printf ("couldn't exec %s\n",Cmd_Argv(1));
 		return;
 	}
-	Com_Printf ("execing %s\n",Cmd_Argv(1));
+	
+	if(strcmp(Cmd_Argv(1),"default.cfg") && strcmp(Cmd_Argv(1),"q3config.cfg") && strcmp(Cmd_Argv(1),"autoexec.cfg")){
+	      Com_Printf ("execing %s\n",Cmd_Argv(1));
+	}
 	
 	Cbuf_InsertText (f.c);
 

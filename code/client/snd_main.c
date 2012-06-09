@@ -470,7 +470,7 @@ void S_Init( void )
 	cvar_t		*cv;
 	qboolean	started = qfalse;
 
-	Com_Printf( "------ Initializing Sound ------\n" );
+	Com_DPrintf( "------ Initializing Sound ------\n" );
 
 	s_volume = Cvar_Get( "s_volume", "0.8", CVAR_ARCHIVE );
 	s_musicVolume = Cvar_Get( "s_musicvolume", "0.25", CVAR_ARCHIVE );
@@ -513,16 +513,16 @@ void S_Init( void )
 
 			S_SoundInfo( );
 
-			Com_Printf( "Pre-caching sounds.\n" );
+			Com_DPrintf( "Pre-caching sounds.\n" );
 			S_sfx_precache();
 
-			Com_Printf( "Sound initialization successful.\n" );
+			Com_DPrintf( "Sound initialization successful.\n" );
 		} else {
 			Com_Printf( "Sound initialization failed.\n" );
 		}
 	}
 
-	Com_Printf( "--------------------------------\n");
+	Com_DPrintf( "--------------------------------\n");
 
 	s_envSoundEnable = Cvar_Get("s_envSoundEnable", "1", CVAR_ARCHIVE);
 }

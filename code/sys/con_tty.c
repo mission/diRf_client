@@ -304,7 +304,7 @@ void CON_Init( void )
 
 	if (!stdinIsATTY)
 	{
-		Com_Printf("tty console mode disabled\n");
+		Com_DPrintf("tty console mode disabled\n");
 		ttycon_on = qfalse;
 		stdin_active = qtrue;
 		return;

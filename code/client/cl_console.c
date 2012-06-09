@@ -406,6 +406,19 @@ void CL_ConsolePrint( char *txt ) {
 		txt += 12;
 	}
 	
+	if( !Q_strncmp( txt, "UI menu load time", 17)){
+		return;
+	}
+	
+	if(strstr(txt,"bots parsed")>0){
+		return;
+	}
+	
+	if(strstr(txt,"crosshairs parsed")>0){
+	       return;
+	}
+	
+	
 	// for some demos we don't want to ever show anything on the console
 	if ( cl_noprint && cl_noprint->integer ) {
 		return;

@@ -1397,43 +1397,43 @@ void dmaHD_SoundInfo(void)
 {	
 	int i;
 
-    Com_Printf("^7-^5-^4");
-	for (i = 0; i < 38; i++) Com_Printf("-");
+    Com_DPrintf("^7-^5-^4");
+	for (i = 0; i < 38; i++) Com_DPrintf("-");
 
-    Com_Printf("\n^7dmaHD HRTF Sound System by p5yc0runn3r\n");
+    Com_DPrintf("\n^7dmaHD HRTF Sound System by p5yc0runn3r\n");
 
 	if (!s_soundStarted) 
 	{
-		Com_Printf ("  ^1Sound system not started...\n");
+		Com_DPrintf ("  ^1Sound system not started...\n");
 	} 
 	else 
 	{
-		Com_Printf("  ^4dma^5HD ^4Mixer type^7: ^5%d", dmaHD_Mixer->integer);
+		Com_DPrintf("  ^4dma^5HD ^4Mixer type^7: ^5%d", dmaHD_Mixer->integer);
 		switch (dmaHD_Mixer->integer / 10)
 		{
-			case 1: Com_Printf(" ^7- ^5Hybrid^7-^5HRTF"); 
+			case 1: Com_DPrintf(" ^7- ^5Hybrid^7-^5HRTF"); 
 				switch (dmaHD_Mixer->integer % 10)
 				{
-					case 0: Com_Printf(" ^7[^53D^7]"); break;
-					case 1: Com_Printf(" ^7[^52D^7]"); break;
+					case 0: Com_DPrintf(" ^7[^53D^7]"); break;
+					case 1: Com_DPrintf(" ^7[^52D^7]"); break;
 				}
 				break;
-			case 2: Com_Printf(" ^7- ^4dma^5EX2");
+			case 2: Com_DPrintf(" ^7- ^4dma^5EX2");
 				switch (dmaHD_Mixer->integer % 10)
 				{
-					case 1: Com_Printf(" ^7[^5No reverb^7]"); break;
+					case 1: Com_DPrintf(" ^7[^5No reverb^7]"); break;
 				}
 				break;
-			case 3: Com_Printf(" ^7- ^4dma^5EX");
+			case 3: Com_DPrintf(" ^7- ^4dma^5EX");
 				break;
 		}
-		Com_Printf("\n");
-		Com_Printf("  ^5%d^4ch ^7- ^5%d^4Hz ^7- ^5%d^4bps\n", dma.channels, dma.speed, dma.samplebits);
+		Com_DPrintf("\n");
+		Com_DPrintf("  ^5%d^4ch ^7- ^5%d^4Hz ^7- ^5%d^4bps\n", dma.channels, dma.speed, dma.samplebits);
 	}
-    Com_Printf("^7-^5-^4");
-	for (i = 0; i < 38; i++) Com_Printf("-");
+    Com_DPrintf("^7-^5-^4");
+	for (i = 0; i < 38; i++) Com_DPrintf("-");
 
-	Com_Printf("^7\n" );
+	Com_DPrintf("^7\n" );
 }
 
 void dmaHD_SoundList(void) 
@@ -1441,26 +1441,26 @@ void dmaHD_SoundList(void)
 	int i;
 	sfx_t *sfx;
 	
-	for (i = 0; i < 19; i++) Com_Printf("^7-^6-" );
-	Com_Printf("\n" );
-	Com_Printf("^2p5yc0runn3r's ^3dma^1HD ^7sound list\n");
+	for (i = 0; i < 19; i++) Com_DPrintf("^7-^6-" );
+	Com_DPrintf("\n" );
+	Com_DPrintf("^2p5yc0runn3r's ^3dma^1HD ^7sound list\n");
 
 	if (s_numSfx > 0 || g_dmaHD_allocatedsoundmemory > 0)
 	{
 		for (sfx = s_knownSfx, i = 0; i < s_numSfx; i++, sfx++)
 		{
-			Com_Printf("  %s%s ^2%.2f^3KiB\n", 
+			Com_DPrintf("  %s%s ^2%.2f^3KiB\n", 
 				(sfx->inMemory ? S_COLOR_GREEN : S_COLOR_RED), sfx->soundName, 
 				(float)sfx->soundLength / 1024.0f);
 		}
-		Com_Printf("  ^2%d^3sounds ^7in ^2%.2f^3MiB\n", s_numSfx, (float)g_dmaHD_allocatedsoundmemory / 1048576.0f);
+		Com_DPrintf("  ^2%d^3sounds ^7in ^2%.2f^3MiB\n", s_numSfx, (float)g_dmaHD_allocatedsoundmemory / 1048576.0f);
 	}
 	else
 	{
-		Com_Printf("  ^1No sounds loaded yet\n");
+		Com_DPrintf("  ^1No sounds loaded yet\n");
 	}
-	for (i = 0; i < 19; i++) Com_Printf("^7-^6-" );
-	Com_Printf("\n" );
+	for (i = 0; i < 19; i++) Com_DPrintf("^7-^6-" );
+	Com_DPrintf("\n" );
 }
 
 

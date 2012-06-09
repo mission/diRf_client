@@ -3192,7 +3192,7 @@ void CL_InitRef( void ) {
 	char			dllName[MAX_OSPATH];
 #endif
 
-	Com_Printf( "----- Initializing Renderer ----\n" );
+	Com_DPrintf( "----- Initializing Renderer ----\n" );
 
 #ifdef USE_RENDERER_DLOPEN
 	cl_renderer = Cvar_Get("cl_renderer", "opengl1", CVAR_ARCHIVE | CVAR_LATCH);
@@ -3279,7 +3279,7 @@ void CL_InitRef( void ) {
 	hA3Dg_ExportRenderGeom (ret);
 #endif
 
-	Com_Printf( "-------------------------------\n");
+	Com_DPrintf( "-------------------------------\n");
 
 	if ( !ret ) {
 		Com_Error (ERR_FATAL, "Couldn't initialize refresh" );
@@ -3398,7 +3398,7 @@ static void CL_GenerateQKey(void)
 	len = FS_SV_FOpenFileRead( QKEY_FILE, &f );
 	FS_FCloseFile( f );
 	if( len == QKEY_SIZE ) {
-		Com_Printf( "QKEY found.\n" );
+		Com_DPrintf( "QKEY found.\n" );
 		return;
 	}
 	else {
@@ -3407,7 +3407,7 @@ static void CL_GenerateQKey(void)
 				QKEY_SIZE );
 		}
 
-		Com_Printf( "QKEY building random string\n" );
+		Com_DPrintf( "QKEY building random string\n" );
 		Com_RandomBytes( buff, sizeof(buff) );
 
 		f = FS_SV_FOpenFileWrite( QKEY_FILE );
@@ -3418,7 +3418,7 @@ static void CL_GenerateQKey(void)
 		}
 		FS_Write( buff, sizeof(buff), f );
 		FS_FCloseFile( f );
-		Com_Printf( "QKEY generated\n" );
+		Com_DPrintf( "QKEY generated\n" );
 	}
 } 
 
@@ -3428,7 +3428,7 @@ CL_Init
 ====================
 */
 void CL_Init( void ) {
-	Com_Printf( "----- Client Initialization -----\n" );
+	Com_DPrintf( "----- Client Initialization -----\n" );
 
 	Con_Init ();
 
@@ -3650,7 +3650,7 @@ void CL_Init( void ) {
 	Cvar_Get( "cl_guid", "", CVAR_USERINFO | CVAR_ROM );
 	CL_UpdateGUID( NULL, 0 );
 
-	Com_Printf( "----- Client Initialization Complete -----\n" );
+	Com_DPrintf( "----- Client Initialization Complete -----\n" );
 }
 
 

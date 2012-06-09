@@ -1664,7 +1664,7 @@ void Hunk_Clear( void ) {
 	hunk_permanent = &hunk_low;
 	hunk_temp = &hunk_high;
 
-	Com_Printf( "Hunk_Clear: reset the hunk ok\n" );
+	Com_DPrintf( "Hunk_Clear: reset the hunk ok\n" );
 	VM_Clear();
 #ifdef HUNK_DEBUG
 	hunkblocks = NULL;
@@ -2597,7 +2597,7 @@ static void Com_DetectSSE(void)
 #endif
 		Q_VMftol = qvmftolsse;
 
-		Com_Printf("Have SSE support\n");
+		Com_DPrintf("Have SSE support\n");
 #if !idx64
 	}
 	else
@@ -2606,7 +2606,7 @@ static void Com_DetectSSE(void)
 		Q_VMftol = qvmftolx87;
 		Q_SnapVector = qsnapvectorx87;
 
-		Com_Printf("No SSE support on this machine\n");
+		Com_DPrintf("No SSE support on this machine\n");
 	}
 #endif
 }
@@ -2847,7 +2847,7 @@ void Com_Init( char *commandLine ) {
 		pipefile = FS_FCreateOpenPipeFile( com_pipefile->string );
 	}
 
-	Com_Printf ("--- Common Initialization Complete ---\n");
+	Com_DPrintf ("--- Common Initialization Complete ---\n");
 }
 
 /*

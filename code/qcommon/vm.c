@@ -375,7 +375,7 @@ vmHeader_t *VM_LoadQVM( vm_t *vm, qboolean alloc, qboolean unpure)
 
 	// load the image
 	Com_sprintf( filename, sizeof(filename), "vm/%s.qvm", vm->name );
-	Com_Printf( "Loading vm file %s...\n", filename );
+	Com_DPrintf( "Loading vm file %s...\n", filename );
 
 	FS_ReadFileDir(filename, vm->searchPath, unpure, &header.v);
 
@@ -392,7 +392,7 @@ vmHeader_t *VM_LoadQVM( vm_t *vm, qboolean alloc, qboolean unpure)
 	FS_Which(filename, vm->searchPath);
 
 	if( LittleLong( header.h->vmMagic ) == VM_MAGIC_VER2 ) {
-		Com_Printf( "...which has vmMagic VM_MAGIC_VER2\n" );
+		Com_DPrintf( "...which has vmMagic VM_MAGIC_VER2\n" );
 
 		// byte swap the header
 		for ( i = 0 ; i < sizeof( vmHeader_t ) / 4 ; i++ ) {
@@ -679,7 +679,7 @@ vm_t *VM_Create( const char *module, intptr_t (*systemCalls)(intptr_t *),
 	vm->programStack = vm->dataMask + 1;
 	vm->stackBottom = vm->programStack - PROGRAM_STACK_SIZE;
 
-	Com_Printf("%s loaded in %d bytes on the hunk\n", module, remaining - Hunk_MemoryRemaining());
+	Com_DPrintf("%s loaded in %d bytes on the hunk\n", module, remaining - Hunk_MemoryRemaining());
 
 	return vm;
 }
