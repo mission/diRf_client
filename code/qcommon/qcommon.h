@@ -874,6 +874,8 @@ extern	cvar_t	*com_protocol;
 extern	cvar_t	*com_legacyprotocol;
 #endif
 
+extern	cvar_t	*com_nosplash;
+
 // com_speeds times
 extern	int		time_game;
 extern	int		time_frontend;
