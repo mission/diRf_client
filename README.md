@@ -12,8 +12,8 @@ diRf client v3.x (ioquake3 svn 2252)
   noise and music in all base maps and most third-party maps.
 
 * Added cvars:
- ** s_envSoundEnable [0|1] -- to enable or disable ambient background sounds.
- ** com_nosplash [0|1]     -- enable/disable Frozen Sand splash screen on
+  - s_envSoundEnable [0|1] -- to enable or disable ambient background sounds.
+  - com_nosplash [0|1]     -- enable/disable Frozen Sand splash screen on
                             client start (set this in your autoexec.cfg)
 
 * For those familiar with SACC, the defaults in diRf client have been increased.
@@ -30,9 +30,9 @@ diRf client v3.x (ioquake3 svn 2252)
   that you're not wallhacking.
 
 * respect!
-  SACC: Slackin's Advanced Competitive Client [urtdevs]
-  dmaHD: p5ych0runn3r of apd 
+  - SACC: Slackin's Advanced Competitive Client [urtdevs]
+  - dmaHD: p5ych0runn3r of apd 
 
 * current maintainers of diRf client
- ** diRf!strata [stratumnine@github]
- ** SudoKing [SudoKing@github]
+  - diRf!strata [stratumnine@github]
+  - SudoKing [SudoKing@github]
