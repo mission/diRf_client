@@ -588,4 +588,9 @@ void S_sfx_precache(void)
 	S_RegisterSound("sound/bomb/Explode01.wav", qfalse);
 	S_RegisterSound("sound/misc/blast_wind.wav", qfalse);
 	S_RegisterSound("sound/misc/blast_fire.wav", qfalse);
+	S_RegisterSound("sound/bandage.wav", qfalse);
+	S_RegisterSound("sound/urban_terror/Piano_Section.wav", qfalse);
+	S_RegisterSound("sound/ctf/capture-blue.wav", qfalse);
+	S_RegisterSound("sound/ctf/capture-red.wav", qfalse);
+	
 }
