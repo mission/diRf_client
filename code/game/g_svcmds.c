@@ -424,6 +424,12 @@ void	Svcmd_ForceTeam_f( void ) {
 	char		str[MAX_TOKEN_CHARS];
 
 	// find the player
+	
+	if ( trap_Argc() < 3 ) {
+                 G_Printf("Usage: forceteam <player> <team>\n");
+                 return;
+	}
+
 	trap_Argv( 1, str, sizeof( str ) );
 	cl = ClientForString( str );
 	if ( !cl ) {
