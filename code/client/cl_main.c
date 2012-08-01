@@ -77,6 +77,7 @@ cvar_t	*cl_autoRecordDemo;
 cvar_t	*cl_aviFrameRate;
 cvar_t	*cl_aviMotionJpeg;
 cvar_t	*cl_forceavidemo;
+cvar_t	*cl_recordfontsize;
 
 cvar_t	*cl_freelook;
 cvar_t	*cl_sensitivity;
@@ -3467,6 +3468,8 @@ void CL_Init( void ) {
 	cl_aviFrameRate = Cvar_Get ("cl_aviFrameRate", "25", CVAR_ARCHIVE);
 	cl_aviMotionJpeg = Cvar_Get ("cl_aviMotionJpeg", "1", CVAR_ARCHIVE);
 	cl_forceavidemo = Cvar_Get ("cl_forceavidemo", "0", 0);
+	cl_recordfontsize = Cvar_Get ("cl_recordfontsize","14",0);
+	
 
 	rconAddress = Cvar_Get ("rconAddress", "", 0);
 

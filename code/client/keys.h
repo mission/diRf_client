@@ -36,7 +36,7 @@ void Field_CharEvent( field_t *edit, int ch );
 void Field_Draw( field_t *edit, int x, int y, int width, qboolean showCursor, qboolean noColorEscape );
 void Field_BigDraw( field_t *edit, int x, int y, int width, qboolean showCursor, qboolean noColorEscape );
 
-#define		COMMAND_HISTORY		32
+#define		COMMAND_HISTORY		512
 extern	field_t	historyEditLines[COMMAND_HISTORY];
 
 extern	field_t	g_consoleField;
