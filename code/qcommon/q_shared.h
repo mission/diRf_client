@@ -27,9 +27,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // A user mod should never modify this file
 
 #ifdef STANDALONE
-  #define PRODUCT_NAME			"diRf_ioUrT-3.0"
+  #define PRODUCT_NAME			"diRf_ioUrT"
+  #define PRODUCT_FULLNAME  		"diRf! ioUrT"
+  #define PRODUCT_DEVELOPER 		"strata & SudoKing"
   #define BASEGAME			"q3ut4"
-  #define CLIENT_WINDOW_TITLE     	"UrbanTerror"
+  #define CLIENT_WINDOW_TITLE     	"Urban Terror"
   #define CLIENT_WINDOW_MIN_TITLE 	"UrT"
   #define HOMEPATH_NAME_UNIX		".q3a"
   #define HOMEPATH_NAME_WIN		"q3ut4"
@@ -409,7 +411,7 @@ extern	vec4_t		colorDkGrey;
 #define S_COLOR_MAGENTA	"^6"
 #define S_COLOR_WHITE	"^7"
 
-extern vec4_t	g_color_table[8];
+extern vec4_t	g_color_table[9];
 
 #define	MAKERGB( v, r, g, b ) v[0]=r;v[1]=g;v[2]=b
 #define	MAKERGBA( v, r, g, b, a ) v[0]=r;v[1]=g;v[2]=b;v[3]=a

@@ -199,6 +199,7 @@ typedef struct {
 	fileHandle_t download;
 	char		downloadTempName[MAX_OSPATH];
 	char		downloadName[MAX_OSPATH];
+	char		mapname[MAX_OSPATH];
 #ifdef USE_CURL
 	qboolean	cURLEnabled;
 	qboolean	cURLUsed;

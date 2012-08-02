@@ -244,6 +244,10 @@ void CL_cURL_BeginDownload( const char *localName, const char *remoteURL )
 			"%s for writing", clc.downloadTempName);
 		return;
 	}
+//-	qcurl_easy_setopt(clc.downloadCURL, CURLOPT_USERAGENT, va("%s %s",
+//-		Q3_VERSION, qcurl_version()));
+//+	qcurl_easy_setopt(clc.downloadCURL, CURLOPT_USERAGENT, va("ioQ3 1.35urt %s",	 qcurl_version())); // ioq3-urt workaround: let iourt.info work properly. 
+//+	//va("%s %s",	Q3_VERSION, qcurl_version()));
 
 	if(com_developer->integer)
 		qcurl_easy_setopt(clc.downloadCURL, CURLOPT_VERBOSE, 1);
@@ -251,8 +255,7 @@ void CL_cURL_BeginDownload( const char *localName, const char *remoteURL )
 	qcurl_easy_setopt(clc.downloadCURL, CURLOPT_TRANSFERTEXT, 0);
 	qcurl_easy_setopt(clc.downloadCURL, CURLOPT_REFERER, va("ioQ3://%s",
 		NET_AdrToString(clc.serverAddress)));
-	qcurl_easy_setopt(clc.downloadCURL, CURLOPT_USERAGENT, va("%s %s",
-		Q3_VERSION, qcurl_version()));
+	qcurl_easy_setopt(clc.downloadCURL, CURLOPT_USERAGENT, va("ioQ3 1.35urt %s", qcurl_version()));
 	qcurl_easy_setopt(clc.downloadCURL, CURLOPT_WRITEFUNCTION,
 		CL_cURL_CallbackWrite);
 	qcurl_easy_setopt(clc.downloadCURL, CURLOPT_WRITEDATA, &clc.download);

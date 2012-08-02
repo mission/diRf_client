@@ -659,11 +659,12 @@ void Con_DrawSolidConsole( float frac ) {
 
 	re.SetColor(colorFG);
 
-	i = strlen( Q3_VERSION );
+#define CON_VERSION PRODUCT_FULLNAME " for " OS_STRING " by " PRODUCT_DEVELOPER
+	i = strlen( CON_VERSION );
 
 	for (x=0 ; x<i ; x++) {
 		SCR_DrawSmallChar( cls.glconfig.vidWidth - ( i - x + 1 ) * SMALLCHAR_WIDTH,
-			lines - SMALLCHAR_HEIGHT, Q3_VERSION[x] );
+			lines - SMALLCHAR_HEIGHT, CON_VERSION[x] );
 	}
 
 

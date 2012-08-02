@@ -108,7 +108,7 @@ cvar_t	*cl_activeAction;
 
 cvar_t	*cl_motdString;
 
-cvar_t	*cl_allowDownload;
+cvar_t	*cl_autodownload;
 cvar_t	*cl_conXOffset;
 cvar_t	*cl_inGameVideo;
 
@@ -887,7 +887,7 @@ void CL_DemoCompleted( void )
 		{
 			// Millisecond times are frame durations:
 			// minimum/average/maximum/std deviation
-			Com_sprintf( buffer, sizeof( buffer ),
+			Com_sprintf( buffer, sizeof( buffer ), S_COLOR_YELLOW
 					"%i frames %3.1f seconds %3.1f fps %d.0/%.1f/%d.0/%.1f ms\n",
 					clc.timeDemoFrames,
 					time/1000.0,
@@ -1135,7 +1135,7 @@ void CL_PlayDemo_f( void ) {
 		protocol = CL_WalkDemoExt(arg, name, &clc.demofile);
 	
 	if (!clc.demofile) {
-		Com_Error( ERR_DROP, "couldn't open %s", name);
+		Com_Error( ERR_DROP, "Couldn't open %s", name);
 		return;
 	}
 	Q_strncpyz( clc.demoName, Cmd_Argv(1), sizeof( clc.demoName ) );
@@ -1288,6 +1288,7 @@ memory on the hunk from cgame, ui, and renderer
 =====================
 */
 void CL_MapLoading( void ) {
+  
 	if ( com_dedicated->integer ) {
 		clc.state = CA_DISCONNECTED;
 		Key_SetCatcher( KEYCATCH_CONSOLE );
@@ -1383,6 +1384,8 @@ This is also called on Com_Error and Com_Quit, so it shouldn't cause any errors
 =====================
 */
 void CL_Disconnect( qboolean showMainMenu ) {
+	int i;
+	
 	if ( !com_cl_running || !com_cl_running->integer ) {
 		return;
 	}
@@ -1447,9 +1450,9 @@ void CL_Disconnect( qboolean showMainMenu ) {
 	// send it a few times in case one is dropped
 	if ( clc.state >= CA_CONNECTED ) {
 		CL_AddReliableCommand("disconnect", qtrue);
-		CL_WritePacket();
-		CL_WritePacket();
-		CL_WritePacket();
+		for(i = 0; i < 3; i++){
+		    CL_WritePacket();
+		}
 	}
 	
 	// Remove pure paks
@@ -1671,6 +1674,7 @@ CL_Disconnect_f
 */
 void CL_Disconnect_f( void ) {
 	SCR_StopCinematic();
+	Con_Close();
 	Cvar_Set("ui_singlePlayerActive", "0");
 	if ( clc.state != CA_DISCONNECTED && clc.state != CA_CINEMATIC ) {
 		Com_Error (ERR_DISCONNECT, "Disconnected from server");
@@ -1783,6 +1787,7 @@ void CL_Connect_f( void ) {
 
 	// server connection string
 	Cvar_Set( "cl_currentServerAddress", server );
+	
 }
 
 #define MAX_RCON_MESSAGE 1024
@@ -2191,8 +2196,12 @@ void CL_NextDownload(void)
 			*s++ = 0;
 		else
 			s = localName + strlen(localName); // point at the nul byte
+			
+		if(!(cl_autodownload->integer)){
+				Com_Error(ERR_DROP, "Downloads are disabled. Set cl_autodownload to 1 to continue.");
+		}
 #ifdef USE_CURL
-		if(!(cl_allowDownload->integer & DLF_NO_REDIRECT)) {
+		if(!(cl_autodownload->integer & DLF_NO_REDIRECT)) {
 			if(clc.sv_allowDownload & DLF_NO_REDIRECT) {
 				Com_Printf("WARNING: server does not "
 					"allow download redirection "
@@ -2217,16 +2226,16 @@ void CL_NextDownload(void)
 		else if(!(clc.sv_allowDownload & DLF_NO_REDIRECT)) {
 			Com_Printf("WARNING: server allows download "
 				"redirection, but it disabled by client "
-				"configuration (cl_allowDownload is %d)\n",
-				cl_allowDownload->integer);
+				"configuration (cl_autodownload is %d)\n",
+				cl_autodownload->integer);
 		}
 #endif /* USE_CURL */
 		if(!useCURL) {
-			if((cl_allowDownload->integer & DLF_NO_UDP)) {
+			if((cl_autodownload->integer & DLF_NO_UDP)) {
 				Com_Error(ERR_DROP, "UDP Downloads are "
 					"disabled on your client. "
-					"(cl_allowDownload is %d)",
-					cl_allowDownload->integer);
+					"(cl_autodownload is %d)",
+					cl_autodownload->integer);
 				return;	
 			}
 			else {
@@ -2255,7 +2264,7 @@ and determine if we need to download them
 void CL_InitDownloads(void) {
   char missingfiles[1024];
 
-  if ( !(cl_allowDownload->integer & DLF_ENABLE) )
+  if ( !(cl_autodownload->integer & DLF_ENABLE) )
   {
     // autodownload is disabled on the client
     // but it's possible that some referenced files on the server are missing
@@ -3495,7 +3504,7 @@ void CL_Init( void ) {
 
 	cl_showMouseRate = Cvar_Get ("cl_showmouserate", "0", 0);
 
-	cl_allowDownload = Cvar_Get ("cl_allowDownload", "0", CVAR_ARCHIVE);
+	cl_autodownload = Cvar_Get ("cl_autodownload", "0", CVAR_ARCHIVE);
 #ifdef USE_CURL_DLOPEN
 	cl_cURLLib = Cvar_Get("cl_cURLLib", DEFAULT_CURL_LIB, CVAR_ARCHIVE);
 #endif
