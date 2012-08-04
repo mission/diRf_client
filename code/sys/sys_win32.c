@@ -813,3 +813,50 @@ qboolean Sys_PIDIsRunning( int pid )
 
 	return qfalse;
 }
+
+void Sys_StartProcess( char *exeName, qboolean doexit ) {
+	TCHAR szPathOrig[_MAX_PATH];
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+
+	ZeroMemory ( &si, sizeof( si ) );
+	si.cb = sizeof( si );
+
+	GetCurrentDirectory( _MAX_PATH, szPathOrig );
+
+	if ( !CreateProcess( NULL, va( "%s\\%s", szPathOrig, exeName ), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi ) ) {
+		Com_Error( ERR_DROP, "Could not start process: '%s\\%s' ", szPathOrig, exeName);
+		return;
+	}
+
+	if( doexit ) {
+		Cbuf_ExecuteText( EXEC_APPEND, "quit\n" );
+	}
+}
+
+void Sys_OpenURL( const char *url, qboolean doexit ) {
+	HWND wnd;
+
+	static qboolean doexit_spamguard = qfalse;
+
+	if ( doexit_spamguard ) {
+		Com_DPrintf( "Sys_OpenURL: already in a doexit sequence, ignoring %s\n", url );
+		return;
+	}
+
+	Com_Printf( "Open URL: %s\n", url );
+
+	if ( !ShellExecute( NULL, "open", url, NULL, NULL, SW_RESTORE ) ) {
+		Com_Error( ERR_DROP, "Could not open url: '%s' ", url );
+		return;
+	}
+
+	if ( wnd ) {
+		ShowWindow( wnd, SW_MAXIMIZE );
+	}
+
+	if ( doexit ) {
+		doexit_spamguard = qtrue;
+		Cbuf_ExecuteText( EXEC_APPEND, "quit\n" );
+	}
+}

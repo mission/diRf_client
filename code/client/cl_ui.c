@@ -39,6 +39,9 @@ static void GetClientState( uiClientState_t *state ) {
 	Q_strncpyz( state->servername, clc.servername, sizeof( state->servername ) );
 	Q_strncpyz( state->updateInfoString, cls.updateInfoString, sizeof( state->updateInfoString ) );
 	Q_strncpyz( state->messageString, clc.serverMessage, sizeof( state->messageString ) );
+#ifdef USE_AUTH
+	Q_strncpyz( state->serverAddress, NET_AdrToString(clc.serverAddress), sizeof( state->serverAddress ) );
+#endif
 	state->clientNum = cl.snap.ps.clientNum;
 }
 
@@ -146,7 +149,7 @@ static int LAN_AddServer(int source, const char *name, const char *address) {
 			break;
 	}
 	if (servers && *count < max) {
-		NET_StringToAdr( address, &adr, NA_IP );
+		NET_StringToAdr( address, &adr, NA_UNSPEC );
 		for ( i = 0; i < *count; i++ ) {
 			if (NET_CompareAdr(servers[i].adr, adr)) {
 				break;
@@ -298,6 +301,10 @@ static void LAN_GetServerInfo( int source, int n, char *buf, int buflen ) {
 		Info_SetValueForKey( info, "nettype", va("%i",server->netType));
 		Info_SetValueForKey( info, "addr", NET_AdrToStringwPort(server->adr));
 		Info_SetValueForKey( info, "punkbuster", va("%i", server->punkbuster));
+#ifdef USE_AUTH
+		Info_SetValueForKey( info, "auth_enable", va("%i", server->auth_enable));
+		Info_SetValueForKey( info, "password", va("%i", server->password));
+#endif
 		Info_SetValueForKey( info, "g_needpass", va("%i", server->g_needpass));
 		Info_SetValueForKey( info, "g_humanplayers", va("%i", server->g_humanplayers));
 		Q_strncpyz(buf, info, buflen);
@@ -1062,6 +1069,31 @@ intptr_t CL_UISystemCalls( intptr_t *args ) {
 	case UI_VERIFY_CDKEY:
 		return CL_CDKeyValidate(VMA(1), VMA(2));
 		
+#ifdef USE_AUTH
+	case UI_NET_STRINGTOADR:
+		return NET_StringToAdr( VMA(1), VMA(2), NA_UNSPEC );
+
+	case UI_Q_VSNPRINTF:
+		return Q_vsnprintf( VMA(1), VMA(2), VMA(3), VMA(4));
+
+	case UI_NET_SENDPACKET:
+		{
+			netadr_t addr;
+			const char * destination = VMA(4);
+
+			NET_StringToAdr( destination, &addr, NA_UNSPEC );
+			NET_SendPacket( args[1], args[2], VMA(3), addr );
+		}
+
+		return 0;
+
+	case UI_COPYSTRING:
+		return CopyString(VMA(1));
+
+	case UI_SYS_STARTPROCESS:
+		//Sys_StartProcess( VMA(1), (qboolean) VMA(2) );
+		return 0;
+#endif
 	default:
 		Com_Error( ERR_DROP, "Bad UI system trap: %ld", (long int) args[0] );
 

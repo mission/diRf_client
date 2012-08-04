@@ -176,6 +176,9 @@ char *Sys_GetClipboardData(void)
 }
 
 #define MEM_THRESHOLD 96*1024*1024
+#define MAX_CMD 1024
+static char exit_cmdline[MAX_CMD] = "";
+void Sys_DoStartProcess( char *cmdline );
 
 /*
 ==================
@@ -880,4 +883,81 @@ Sys_PIDIsRunning
 qboolean Sys_PIDIsRunning( int pid )
 {
 	return kill( pid, 0 ) == 0;
+}
+
+void Sys_DoStartProcess( char *cmdline) {
+	switch ( fork() )
+	{
+		case -1:
+			break;
+		
+		case 0:
+			if ( strchr( cmdline, ' ' ) ) {
+				system( cmdline );
+			} else {
+				execl( cmdline, cmdline, NULL );
+				printf( "execl failed: %s\n", strerror( errno ) );
+			}
+
+			_exit(0);
+			break;
+	}
+}
+
+void Sys_StartProcess( char *cmdline, qboolean doexit ) {
+	if ( doexit ) {
+		Com_DPrintf( "Sys_StartProcess %s (delaying to final exit)\n", cmdline );
+		Q_strncpyz( exit_cmdline, cmdline, MAX_CMD );
+		Cbuf_ExecuteText( EXEC_APPEND, "quit\n" );
+		return;
+	}
+
+	Com_DPrintf( "Sys_StartProcess %s\n", cmdline );
+	Sys_DoStartProcess( cmdline );
+}
+
+void Sys_OpenURL( const char *url, qboolean doexit ) {
+	char *basepath, *homepath, *pwdpath;
+	char fname[20];
+	char fn[MAX_OSPATH];
+	char cmdline[MAX_CMD];
+
+	static qboolean doexit_spamguard = qfalse;
+
+	if ( doexit_spamguard ) {
+		Com_DPrintf ( "Sys_OpenURL: already in a doexit sequence, ignoring %s\n", url );
+		return;
+	}
+
+	Com_DPrintf( "Open URL: %s\n", url );
+	Q_strncpyz ( fname, "openurl.sh", 20 );
+
+	pwdpath = Sys_Cwd();
+	Com_sprintf( fn, MAX_OSPATH, "%s/%s", pwdpath, fname);
+
+	if ( access( fn, X_OK ) == -1) {
+		Com_DPrintf( "%s not found\n", fn );
+		homepath = Cvar_VariableString( "fs_homepath" );
+		Com_sprintf( fn, MAX_OSPATH, "%s/%s", homepath, fname );
+		if ( access( fn, X_OK ) == -1) {
+			Com_DPrintf( "%s not found\n", fn );
+			basepath = Cvar_VariableString( "fs_basepath" );
+			Com_sprintf( fn, MAX_OSPATH, "%s/%s", basepath, fname );
+			if ( access ( fn, X_OK ) == -1) {
+				Com_DPrintf( "%s not found\n", fn );
+				Com_Printf( "Can't find script '%s' to open requested URL (use +set developer 1 for more verbosity)\n", fname );
+				return;
+			}
+		}
+	}
+
+	if ( doexit ) {
+		doexit_spamguard = qtrue;
+	}
+
+	Com_DPrintf( "URL script: %s\n", fn );
+
+	Com_sprintf( cmdline, MAX_CMD, "%s '%s' &", fn, url );
+
+	Sys_StartProcess( cmdline, doexit );
 }

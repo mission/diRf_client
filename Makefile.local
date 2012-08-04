@@ -19,3 +19,6 @@ USE_CURL_DLOPEN=1
 
 # Mumble
 USE_MUMBLE=1
+
+# UrT 4.2 auth system
+USE_AUTH=1

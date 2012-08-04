@@ -306,6 +306,10 @@ typedef struct {
 	int			ping;
 	qboolean	visible;
 	int			punkbuster;
+#ifdef USE_AUTH
+	int			auth_enable;
+	int			password;
+#endif
 	int			g_humanplayers;
 	int			g_needpass;
 } serverInfo_t;
@@ -425,6 +429,17 @@ extern	cvar_t	*cl_inGameVideo;
 extern	cvar_t	*cl_lanForcePackets;
 extern	cvar_t	*cl_autoRecordDemo;
 extern  cvar_t  *cl_altTab;
+
+#ifdef USE_AUTH
+extern cvar_t *cl_auth_challenge;
+extern cvar_t *cl_auth_key;
+extern cvar_t *cl_auth_login;
+extern cvar_t *cl_auth_notoriety;
+extern cvar_t *cl_auth_engine;
+extern cvar_t *cl_auth;
+extern cvar_t *cl_authc;
+#endif
+
 extern	cvar_t	*cl_consoleKeys;
 
 cvar_t	*s_envSoundEnable;
@@ -636,4 +651,4 @@ qboolean CL_VideoRecording( void );
 // cl_main.c
 //
 void CL_WriteDemoMessage ( msg_t *msg, int headerBytes );
-
+void Sys_StartProcess( char *, qboolean );

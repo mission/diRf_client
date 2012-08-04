@@ -121,6 +121,16 @@ cvar_t	*cl_guidServerUniq;
 cvar_t *cl_altTab;
 cvar_t	*cl_consoleKeys;
 
+#ifdef USE_AUTH
+cvar_t *cl_auth_challenge;
+cvar_t *cl_auth_key;
+cvar_t *cl_auth_login;
+cvar_t *cl_auth_notoriety;
+cvar_t *cl_auth_engine;
+cvar_t *cl_auth;
+cvar_t *cl_authc;
+#endif
+
 clientActive_t		cl;
 clientConnection_t	clc;
 clientStatic_t		cls;
@@ -2465,6 +2475,10 @@ void CL_InitServerInfo( serverInfo_t *server, netadr_t *address ) {
 	server->game[0] = '\0';
 	server->gameType = 0;
 	server->netType = 0;
+#ifdef USE_AUTH
+	server->auth_enable = 0;
+	server->password = 0;
+#endif
 }
 
 #define MAX_SERVERSPERPACKET	256
@@ -2798,6 +2812,12 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 		return;
 	}
 
+#ifdef USE_AUTH
+	if ( !Q_stricmp(c, "AUTH:CL") ) {
+		VM_Call( uivm, UI_AUTHSERVER_PACKET, from);
+		return;
+	}
+#endif
 	Com_DPrintf ("Unknown connectionless packet command.\n");
 }
 
@@ -3561,6 +3581,15 @@ void CL_Init( void ) {
 	cl_guidServerUniq = Cvar_Get ("cl_guidServerUniq", "1", CVAR_ARCHIVE);
 	cl_altTab = Cvar_Get("cl_altTab", "1", CVAR_ARCHIVE);
 
+#ifdef USE_AUTH
+	cl_auth_challenge = Cvar_Get( "cl_auth_challenge", "0", CVAR_TEMP | CVAR_USERINFO );
+	cl_auth_key = Cvar_Get( "cl_auth_key", "", CVAR_TEMP | CVAR_ROM );
+	cl_auth_login = Cvar_Get( "cl_auth_login", "", CVAR_TEMP | CVAR_ROM );
+	cl_auth_notoriety = Cvar_Get( "cl_auth_notoriety", "", CVAR_TEMP | CVAR_ROM );
+	cl_auth_engine = Cvar_Get( "cl_auth_engine", "1", CVAR_TEMP | CVAR_ROM );
+	cl_auth = Cvar_Get( "cl_auth", "0", CVAR_TEMP | CVAR_ROM);
+	cl_authc = Cvar_Get( "cl_authc", "0", CVAR_TEMP | CVAR_ROM);
+#endif
 	// ~ and `, as keys and characters
 	cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE);
 
@@ -3747,6 +3776,10 @@ static void CL_SetServerInfo(serverInfo_t *server, const char *info, int ping) {
 			server->minPing = atoi(Info_ValueForKey(info, "minping"));
 			server->maxPing = atoi(Info_ValueForKey(info, "maxping"));
 			server->punkbuster = atoi(Info_ValueForKey(info, "punkbuster"));
+#ifdef USE_AUTH
+			server->auth_enable = atoi(Info_ValueForKey(info, "auth_enable"));
+			server->password = atoi(Info_ValueForKey(info, "password"));
+#endif
 			server->g_humanplayers = atoi(Info_ValueForKey(info, "g_humanplayers"));
 			server->g_needpass = atoi(Info_ValueForKey(info, "g_needpass"));
 		}
@@ -3892,6 +3925,10 @@ void CL_ServerInfoPacket( netadr_t from, msg_t *msg ) {
 	cls.localServers[i].gameType = 0;
 	cls.localServers[i].netType = from.type;
 	cls.localServers[i].punkbuster = 0;
+#ifdef USE_AUTH
+	cls.localServers[i].auth_enable = 0;
+	cls.localServers[i].password = 0;
+#endif
 	cls.localServers[i].g_humanplayers = 0;
 	cls.localServers[i].g_needpass = 0;
 									 

@@ -3729,6 +3729,8 @@ void FS_Restart( int checksumFeed ) {
 	if ( FS_ReadFile( "default.cfg", NULL ) <= 0 ) {
 		// this might happen when connecting to a pure server not using BASEGAME/pak0.pk3
 		// (for instance a TA demo server)
+		// let's stub this out and see what happens -strata
+/*
 		if (lastValidBase[0]) {
 			FS_PureServerSetLoadedPaks("", "");
 			Cvar_Set("fs_basepath", lastValidBase);
@@ -3738,7 +3740,7 @@ void FS_Restart( int checksumFeed ) {
 			FS_Restart(checksumFeed);
 			Com_Error( ERR_DROP, "Invalid game folder" );
 			return;
-		}
+		} */ 
 		Com_Error( ERR_FATAL, "Couldn't load default.cfg" );
 	}
 
