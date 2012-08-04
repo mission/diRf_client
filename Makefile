@@ -264,7 +264,7 @@ ifneq ($(BUILD_CLIENT),0)
 endif
 
 # Add svn version info
-SVN_REV=2303
+SVN_REV=2304
 VERSION:=$(VERSION)_SVN$(SVN_REV)
 
 #############################################################################

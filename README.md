@@ -1,7 +1,7 @@
 diRf_client
 ===========
 
-diRf client v3.x (ioquake3 svn 2303)
+diRf client v3.x (ioquake3 svn 2304)
 
 * diRf client is a customized version of ioquake3 for Urban Terror 4.x
   by Frozen Sand. It includes enhanced sound hacks that may or may not be
